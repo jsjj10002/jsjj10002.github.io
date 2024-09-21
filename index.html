@@ -11,13 +11,32 @@
     <!-- 지마켓 산스 폰트 추가 -->
     <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
     <style>
+        /* 기본 스타일 */
+        html {
+            font-size: 16px; /* 기본 폰트 크기 설정 */
+        }
+        
         body {
             font-family: 'GmarketSans', Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 20px;
             background-color: #f4f4f4;
+            font-size: 1rem; /* 1rem = 16px */
         }
+        
+        h1 {
+            font-size: 2rem; /* 32px */
+        }
+        
+        h2 {
+            font-size: 1.5rem; /* 24px */
+        }
+        
+        p, li {
+            font-size: 1rem; /* 16px */
+        }
+        
         .container {
             max-width: 800px;
             margin: auto;
@@ -25,45 +44,86 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        
+        /* 태블릿 크기 */
+        @media screen and (max-width: 768px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        
+        /* 모바일 크기 */
+        @media screen and (max-width: 480px) {
+            html {
+                font-size: 12px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .intro {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .intro img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .intro-divider {
+                width: 80%;
+                height: 2px; /* 1px에서 2px로 변경 */
+                margin: 20px 0;
+            }
+        }
+        
+        /* 기존 스타일 유지 */
         .intro {
             display: flex;
-            align-items: center;
+            align-items: stretch; /* 요소들의 높이를 같게 만듭니다 */
             margin-bottom: 20px;
         }
+        
         .intro img {
             width: 150px;
             height: auto;
             margin-right: 20px;
-            /* border-radius: 50%; 를 제거하거나 아래와 같이 수정 */
-            border-radius: 0; /* 완전한 네모 모양 */
-            /* 또는 약간의 둥근 모서리를 원한다면: */
-            /* border-radius: 10px; */
+            border-radius: 0;
         }
+        
+        .intro-divider {
+            width: 2px; /* 1px에서 2px로 변경 */
+            background-color: #ccc; /* 회색 구분선 */
+            margin: 0 20px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        /* 나머지 스타일은 그대로 유지 */
+        
         blockquote {
-            border-left: 4px solid #ccc;
-            padding-left: 20px;
-            margin: 0;
             text-align: center; /* 텍스트 중앙 정렬 */
+            margin: 0;
+            padding: 0;
         }
+
         blockquote h1 {
-            font-style: normal; /* 기울임 제거 */
+            margin-bottom: 10px; /* h1과 p 사이의 간격 조정 */
         }
-        h1, h2 {
-            font-family: 'GmarketSans', Arial, sans-serif;
-            font-weight: bold; /* Bold 스타일 사용 */
-            color: #333;
-        }
-        .section {
-            margin-bottom: 30px;
-        }
-        .tech-stack img {
-            margin-right: 10px;
-        }
-        .email-address {
-            font-size: 0.9em; /* 작은 글씨 크기 */
-            color: #888; /* 연한 회색 */
-            font-style: italic; /* 기울임체 */
-            margin-top: 5px; /* 위쪽 여백 추가 */
+
+        blockquote p {
+            font-style: italic; /* 인용구 스타일 (선택사항) */
         }
     </style>
 </head>
@@ -71,10 +131,13 @@
     <div class="container">
         <div class="intro">
             <img src="myintro.jpg" alt="박재석">
-            <blockquote>
-                <h1>미래를 개척하는 박재석입니다.</h1>
-                <p>"안녕하세요. 데이터 분석, 자연어 처리, 멀티모달에 관심이 많은 개발자 박재석입니다."</p>
-            </blockquote>
+            <div class="intro-divider"></div>
+            <div class="intro-text">
+                <blockquote>
+                    <h1>미래를 개척하는 박재석입니다.</h1>
+                    <p>"안녕하세요. 데이터 분석, 자연어 처리, 멀티모달에 관심이 많은 개발자 박재석입니다."</p>
+                </blockquote>
+            </div>
         </div>
 
         <div class="section">
