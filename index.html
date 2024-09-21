@@ -43,6 +43,7 @@
             background: white;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding-bottom: 50vh; /* 뷰포트 높이의 50% 만큼 패딩 추가 */
         }
         
         /* 태블릿 크기 */
@@ -233,14 +234,14 @@
         // 스크롤 애니메이션을 위한 JavaScript 코드
         function checkScroll() {
             var sections = document.querySelectorAll('.section');
+            var windowHeight = window.innerHeight;
             
             sections.forEach(function(section) {
                 var sectionTop = section.getBoundingClientRect().top;
                 var sectionBottom = section.getBoundingClientRect().bottom;
-                var windowHeight = window.innerHeight;
                 
-                // 섹션이 화면의 75% 이내에 들어왔을 때 보이게 함
-                if (sectionTop < windowHeight * 0.75 && sectionBottom > 0) {
+                // 섹션이 화면의 90% 이내에 들어왔을 때 보이게 함
+                if (sectionTop < windowHeight * 0.9 && sectionBottom > 0) {
                     section.classList.add('visible');
                 } else {
                     section.classList.remove('visible');
@@ -248,11 +249,24 @@
             });
         }
 
+        // 초기 로드 및 리사이즈 시 체크
+        function init() {
+            checkScroll();
+            // 마지막 섹션 강제 표시
+            var lastSection = document.querySelector('.section:last-child');
+            if (lastSection) {
+                lastSection.classList.add('visible');
+            }
+        }
+
         // 초기 로드 시 체크
-        checkScroll();
+        init();
 
         // 스크롤 이벤트 리스너 추가
         window.addEventListener('scroll', checkScroll);
+
+        // 리사이즈 이벤트 리스너 추가
+        window.addEventListener('resize', init);
     </script>
 </body>
 </html>
