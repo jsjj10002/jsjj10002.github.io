@@ -7,266 +7,728 @@
     <!-- Font Awesome 아이콘 라이브러리 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Google Fonts 추가 -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-    <!-- 지마켓 산스 폰트 추가 -->
-    <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Pretendard 폰트 추가 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard-dynamic-subset.css" />
     <style>
         /* 기본 스타일 */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #1abc9c;
+            --text-color: #333;
+            --light-text: #f4f4f4;
+            --section-bg: rgba(255, 255, 255, 0.75);
+            --box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
         html {
-            font-size: 16px; /* 기본 폰트 크기 설정 */
+            font-size: 15px;
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100%;
         }
         
         body {
-            font-family: 'GmarketSans', Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-weight: 300;
+            line-height: 1.5;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-            font-size: 1rem; /* 1rem = 16px */
+            padding: 0;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            color: var(--text-color);
+            min-height: 100vh;
+            position: relative;
         }
         
         h1 {
-            font-size: 2rem; /* 32px */
+            font-size: 2.5rem;
+            margin-bottom: 0.3rem;
+            font-weight: 400;
         }
         
         h2 {
-            font-size: 1.5rem; /* 24px */
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            position: relative;
+            display: inline-block;
+            font-weight: 400;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
         }
         
         p, li {
-            font-size: 1rem; /* 16px */
+            font-size: 0.95rem;
         }
         
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            padding-bottom: 50vh; /* 뷰포트 높이의 50% 만큼 패딩 추가 */
+        /* 메인 컨테이너 */
+        .main-container {
+            width: 98%;
+            margin: 0 auto;
+            padding: 0;
         }
         
-        /* 태블릿 크기 */
-        @media screen and (max-width: 768px) {
-            html {
-                font-size: 14px;
-            }
-        }
-        
-        /* 모바일 크기 */
-        @media screen and (max-width: 480px) {
-            html {
-                font-size: 12px;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-            
-            .intro {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .intro img {
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-            
-            .intro-divider {
-                width: 80%;
-                height: 2px; /* 1px에서 2px로 변경 */
-                margin: 20px 0;
-            }
-        }
-        
-        /* 기존 스타일 유지 */
-        .intro {
-            display: flex;
-            align-items: stretch; /* 요소들의 높이를 같게 만듭니다 */
-            margin-bottom: 20px;
-        }
-        
-        .intro img {
-            width: 150px;
-            height: auto;
-            margin-right: 20px;
-            border-radius: 0;
-        }
-        
-        .intro-divider {
-            width: 2px; /* 1px에서 2px로 변경 */
-            background-color: #ccc; /* 회색 구분선 */
-            margin: 0 20px;
-        }
-        
-        .intro-text {
-            flex: 1;
+        /* 페이지 섹션 */
+        .page-section {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            padding: 2rem 0;
+            box-sizing: border-box;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
         }
         
-        /* 나머지 스타일은 그대로 유지 */
-        
-        blockquote {
-            text-align: center; /* 텍스트 중앙 정렬 */
-            margin: 0;
-            padding: 0;
-        }
-
-        blockquote h1 {
-            margin-bottom: 10px; /* h1과 p 사이의 간격 조정 */
-        }
-
-        blockquote p {
-            font-style: italic; /* 인용구 스타일 (선택사항) */
-        }
-
-        .section {
+        .page-entering {
             opacity: 0;
             transform: translateY(50px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            background-color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-
-        .section.visible {
+        
+        .page-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+        
+        .page-leaving {
+            opacity: 0;
+            transform: translateY(-50px);
+        }
+        
+        /* 첫 번째 섹션 - 헤더 */
+        .header-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            position: relative;
+            gap: 20px;
+        }
+        
+        .photo-container {
+            width: 300px;
+            padding-right: 0;
+            margin-right: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: transparent;
+            z-index: 2;
+        }
+        
+        .photo-container img {
+            width: 220px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-container img:hover {
+            transform: scale(1.03);
+        }
+        
+        .intro-container {
+            flex: 2;
+            margin-left: 0;
+            padding-left: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: var(--section-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            height: 180px;
+            z-index: 1;
+            flex-grow: 1;
+        }
+        
+        .intro-container h1 {
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .intro-container h1::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .intro-container p {
+            color: var(--text-color);
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+        
+        /* 콘텐츠 섹션 */
+        .content-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 0;
+            width: 100%;
+        }
+        
+        .content-item {
+            flex: 1;
+            background-color: var(--section-bg);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            max-height: none;
+        }
+        
+        /* 푸터 섹션 */
+        .footer-section {
+            display: flex;
+            gap: 40px;
+            width: 90%;
+            justify-content: center;
+        }
+        
+        .footer-item {
+            flex: 1;
+            background-color: var(--section-bg);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .footer-item h2 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
+        }
+        
+        /* 프로젝트 섹션 */
+        .projects-section h2, .awards-section h2, .skills-section h2, .contact-section h2 {
+            margin-top: 0;
+        }
+        
+        .project-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .project-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .project-title {
+            font-weight: 500;
+            font-size: 1rem;
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .project-title:hover {
+            color: var(--primary-color);
+            font-size: 1.05rem;
+            transform: translateX(3px);
+        }
+        
+        .project-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .project-title a:hover {
+            color: var(--primary-color);
+        }
+        
+        .project-detail {
+            display: block;
+            font-style: italic;
+            margin-top: 3px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        /* 수상 경력 및 학력 섹션 조정 */
+        .awards-section {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .awards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .awards-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        /* 수상 경력 */
+        .award-item {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .award-item::before {
+            content: '🎖';
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.8rem;
+        }
+        
+        /* 학력 및 경력 */
+        .education-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+        
+        .education-list li {
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 14px;
+            font-size: 0.85rem;
+        }
+        
+        .education-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-size: 0.7rem;
+            color: var(--primary-color);
+        }
+        
+        /* 기술 스택 */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .tech-stack img {
+            transition: transform 0.3s ease;
+            height: 22px;
+        }
+        
+        .tech-stack img:hover {
+            transform: translateY(-3px);
+        }
+        
+        /* 연락처 */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        
+        .contact-links a {
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-links a:hover {
+            transform: translateY(-3px) scale(1.03);
+        }
+        
+        .contact-links img {
+            height: 22px;
+        }
+        
+        .email-address {
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+        }
+        
+        /* 반응형 디자인 */
+        @media screen and (max-width: 1200px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .intro-container {
+                padding: 20px;
+            }
+            
+            .photo-container img {
+                width: 200px;
+            }
+        }
+        
+        @media screen and (max-width: 992px) {
+            .page-section {
+                height: auto;
+                min-height: 100vh;
+                scroll-snap-align: none;
+            }
+            
+            .header-section, .content-section, .footer-section {
+                flex-direction: column;
+                gap: 15px;
+                padding: 10px;
+                width: 100%;
+            }
+            
+            .photo-container, .intro-container, .content-item, .footer-item {
+                flex: none;
+                width: 100%;
+            }
+            
+            .photo-container {
+                margin-top: 15px;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .content-item, .footer-item, .intro-container {
+                padding: 20px;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .main-container {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .photo-container img {
+                width: 160px;
+            }
+            
+            .intro-container p {
+                font-size: 1rem;
+            }
+        }
+        
+        /* 스크롤 애니메이션 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 스크롤 인디케이터 */
+        .scroll-indicator {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator-dot.active {
+            background-color: white;
+            transform: scale(1.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="section intro">
-            <img src="myintro.jpg" alt="박재석">
-            <div class="intro-divider"></div>
-            <div class="intro-text">
-                <blockquote>
-                    <h1>미래를 개척하는 박재석입니다.</h1>
-                    <p>"안녕하세요. 데이터 분석, 자연어 처리, 멀티모달에 관심이 많은 개발자 박재석입니다."</p>
-                </blockquote>
+    <div class="main-container">
+        <!-- 스크롤 인디케이터 -->
+        <div class="scroll-indicator">
+            <div class="indicator-dot active" data-section="page1"></div>
+            <div class="indicator-dot" data-section="page2"></div>
+        </div>
+        
+        <!-- 첫 번째 페이지 -->
+        <section id="page1" class="page-section">
+            <div class="header-section">
+                <div class="photo-container fade-in">
+                    <img src="myintro.jpg" alt="박재석">
+                </div>
+                
+                <div class="intro-container fade-in">
+                    <h1>미래를 개척하는 개발자 박재석입니다.</h1>
+                    <p>"안녕하세요. 데이터 분석, 자연어 처리, 멀티모달, 이미지 생성, 앱/웹 개발에 관심이 많은 박재석입니다."<br><br>
+                    도전과 새로운 기술을 시도하는 것을 좋아하며, 다양한 프로젝트 경험을 통해 새로운 시스템에 빠르게 적응하고 창의적인 아이디어를 제시하는 강점을 가지고 있습니다.</p>
+                </div>
             </div>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-user"></i> 소개</h2>
-            <p>저는 데이터를 통해 인사이트를 도출하고, 인공지능 기술을 활용하여 실생활의 문제를 해결하는 것에 큰 흥미를 느낍니다. 특히 자연어 처리와 멀티모달 분야에서의 혁신적인 응용에 관심이 많습니다.</p>
-            <p>제 경험과 프로젝트를 통해, 저는 단순히 기술을 구현하는 것을 넘어 실제 비즈니스 가치를 창출하는 솔루션을 개발하는 것을 목표로 하고 있습니다. 예를 들어, GPT 모듈을 활용한 산업 데이터 분석 프로젝트에서는 데이터 기반의 의사결정이 기업에 어떤 영향을 미칠 수 있는지 직접 경험했습니다.</p>
-            <p>앞으로도 끊임없이 학습하고 성장하여, 기술로 세상을 더 나은 곳으로 만드는 데 기여하고 싶습니다.</p>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-graduation-cap"></i> 학력 및 경력</h2>
-            <ul>
-                <li>2021.3 ~ 현재: 전남대학교 빅데이터융합학과 재학</li>
-                <li>2024.9 ~ 현재: 전남대학교 인공지능 융합학과 복수전공</li>
-                <li>2022.3 ~ 2022.8: 전남대학교 빅데이터융합학과 학생회 회장</li>
-                <li>2022.8 ~ 2024.2: 대한민국 해병대 병장 만기 전역</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-project-diagram"></i> 프로젝트 경험</h2>
-            <ol>
-                <li><strong>CNN, BiLSTM 기반 fake 음성 탐지 모델 개발</strong> (2024.4 ~ 2024.6)
-                    <ul><li>딥러닝 기술을 활용한 음성 분석 및 탐지 시스템 구현</li></ul>
-                </li>
-                <li><strong>GPT 모듈을 활용한 산업 데이터 분석 및 사업 개선 리포트 자동화</strong> (2024.7)
-                    <ul><li>대량의 산업 데이터를 효율적으로 분석하고 인사이트를 도출하는 시스템 개발</li></ul>
-                </li>
-                <li><strong>사용자 표정 감정 분석을 통한 상품 만족도 예측</strong> (2024.8 ~ 현재)
-                    <ul>
-                        <li>인공지능 혁신융합대학 사업단 We-meet 프로젝트</li>
-                        <li>컴퓨터 비전과 감정 분석 기술을 결합한 혁신적인 사용자 경험 분석 시스템 개발 중</li>
+            
+            <!-- 두 번째 섹션: 프로젝트와 수상 경력 -->
+            <div class="content-section">
+                <div class="content-item projects-section fade-in">
+                    <h2><i class="fas fa-project-diagram"></i> 활동 프로젝트</h2>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">CNN, BiLSTM 기반 fake 음성 탐지 모델 개발</a></span>
+                        <span class="project-detail">- bi-lstm&cnn 기반 가짜 음성탐지 [데이터 수집, 모델 개발]</span>
+                    </div>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">GPT 모듈을 활용한 산업 데이터 분석 및 사업 개선 리포트 자동화</a></span>
+                        <span class="project-detail">- raw 데이터 분석과 open api를 활용한 컨설팅 보고서 생성 자동화 [데이터 분석및 시각화, 프롬프트엔지니어링]</span>
+                    </div>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">음성인식 키오스크 개발</a></span>
+                        <span class="project-detail">- 음성인식 키오스크 개발 [자연어 처리 알고리즘 구현, RASA api 활용]</span>
+                    </div>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">사이버테러 공격 양상 분석</a></span>
+                        <span class="project-detail">- 디도스 방지를 위한 사이버테러 공격 양상 분석 [데이터 수집, 데이터 분석]</span>
+                    </div>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">식사 모습 감정 & 행동 분석 활용 고객 만족도 측정 플랫폼</a></span>
+                        <span class="project-detail">- 고객 만족도 측정 및 자동 컨설팅 플랫폼 제작 [웹 프론트앤드개발, 데이터베이스 구축, 데이터 시각화]</span>
+                    </div>
+                    
+                    <div class="project-item">
+                        <span class="project-title"><a href="#">개인 맞춤 적금 서비스 제작</a></span>
+                        <span class="project-detail">- 비모수적 추정을 이용해 개인 맞춤 적금 서비스 제작 [데이터 분석, 통계 모델 제작, 데이터 시각화]</span>
+                    </div>
+                </div>
+                
+                <div class="content-item awards-section fade-in">
+                    <h2><i class="fas fa-trophy"></i> 수상 경력</h2>
+                    <div class="awards-container">
+                        <div class="awards-column">
+                            <div class="award-item">
+                                <strong>2024 AI 융합 문재발굴 산학 연계 해커톤 (동상)</strong>
+                            </div>
+                            <div class="award-item">
+                                <strong>2024 CO-SHOW 연계 AIM챌린지 (사업단장상)</strong>
+                            </div>
+                            <div class="award-item">
+                                <strong>2024 전남대학교 소중사업단 교내 디지털 경진대회/AI 부문(사업부단장상)</strong>
+                            </div>
+                        </div>
+                        <div class="awards-column">
+                            <div class="award-item">
+                                <strong>2024 CO-DATA STATION/데이터 과학 논술대회(협의회장상)</strong>
+                            </div>
+                            <div class="award-item">
+                                <strong>2024 AICOSS 산학협력프로젝트 경진대회 (금상)</strong>
+                            </div>
+                            <div class="award-item">
+                                <strong>2024 신한금융그룹 빅데이터 해커톤 (본선 진출)</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h2 style="margin-top: 20px;"><i class="fas fa-graduation-cap"></i> 학력 및 경력</h2>
+                    <ul class="education-list">
+                        <li>2021.3 ~ 현재: 전남대학교 빅데이터융합학과 재학</li>
+                        <li>2024.9 ~ 현재: 전남대학교 인공지능 융합학과 복수전공</li>
+                        <li>2022.3 ~ 2022.8: 전남대학교 빅데이터융합학과 학생회 회장</li>
+                        <li>2022.8 ~ 2024.2: 대한민국 해병대 병장 만기 전역</li>
                     </ul>
-                </li>
-                <li><strong>Rasa를 이용한 대화형 무인 키오스크 개발</strong> (2024.9 ~ 현재)
-                    <ul><li>자연어 처리 기술을 활용한 사용자 친화적 인터페이스 구현</li></ul>
-                </li>
-            </ol>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-trophy"></i> 수상 경력</h2>
-            <ul>
-                <li>2024.6.7: 전남대학교 교내 디지털경진대회(AI 부문) - <strong>동상</strong></li>
-                <li>2024.8.23: 인공지능혁신융합대학 AI융합 문제발굴 산학연계 해커톤 - <strong>동상</strong></li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-code"></i> 기술 스택</h2>
-            <div class="tech-stack">
-                <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" style="border-radius: 8px;">
-                <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow" style="border-radius: 8px;">
-                <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="scikit-learn" style="border-radius: 8px;">
-                <img src="https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white" alt="R" style="border-radius: 8px;">
+                </div>
             </div>
-        </div>
-
-        <div class="section">
-            <h2><i class="fas fa-envelope"></i> 연락처</h2>
-            <p>
-                <a href="https://github.com/jsjj10002" target="_blank">
-                    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" style="border-radius: 8px;">
-                </a>
-                <a href="https://www.instagram.com/jsjj10002/" target="_blank">
-                    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" style="border-radius: 8px;">
-                </a>
-                <a href="mailto:nrtaky12@gmail.com">
-                    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail" style="border-radius: 8px;">
-                </a>
-            </p>
-            <p class="email-address" style="font-size: 0.8em; color: #888;">nrtaky12@gmail.com</p>
-        </div>
+        </section>
+        
+        <!-- 두 번째 페이지: 기술 스택과 연락처 -->
+        <section id="page2" class="page-section">
+            <div class="footer-section">
+                <div class="footer-item skills-section fade-in">
+                    <h2><i class="fas fa-code"></i> 기술 스택</h2>
+                    <div class="tech-stack">
+                        <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+                        <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" alt="TensorFlow">
+                        <img src="https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white" alt="scikit-learn">
+                        <img src="https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white" alt="R">
+                        <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="PyTorch">
+                        <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js">
+                        <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
+                        <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI">
+                    </div>
+                </div>
+                
+                <div class="footer-item contact-section fade-in">
+                    <h2><i class="fas fa-link"></i> Link Me</h2>
+                    <div class="contact-links">
+                        <a href="https://github.com/jsjj10002" target="_blank">
+                            <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+                        </a>
+                        <a href="https://www.instagram.com/jsjj10002/" target="_blank">
+                            <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram">
+                        </a>
+                        <a href="mailto:nrtaky12@gmail.com">
+                            <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail">
+                        </a>
+                    </div>
+                    <p class="email-address">nrtaky12@gmail.com</p>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
         // 스크롤 애니메이션을 위한 JavaScript 코드
         function checkScroll() {
-            var sections = document.querySelectorAll('.section');
+            var elements = document.querySelectorAll('.fade-in');
             var windowHeight = window.innerHeight;
             
-            sections.forEach(function(section) {
-                var sectionTop = section.getBoundingClientRect().top;
-                var sectionBottom = section.getBoundingClientRect().bottom;
+            elements.forEach(function(element) {
+                var elementTop = element.getBoundingClientRect().top;
+                var elementBottom = element.getBoundingClientRect().bottom;
                 
-                // 섹션이 화면의 90% 이내에 들어왔을 때 보이게 함
-                if (sectionTop < windowHeight * 0.9 && sectionBottom > 0) {
-                    section.classList.add('visible');
-                } else {
-                    section.classList.remove('visible');
+                // 요소가 화면의 80% 이내에 들어왔을 때 보이게 함
+                if (elementTop < windowHeight * 0.9 && elementBottom > 0) {
+                    element.classList.add('visible');
                 }
             });
         }
 
-        // 초기 로드 및 리사이즈 시 체크
-        function init() {
-            checkScroll();
-            // 마지막 섹션 강제 표시
-            var lastSection = document.querySelector('.section:last-child');
-            if (lastSection) {
-                lastSection.classList.add('visible');
-            }
-        }
-
         // 초기 로드 시 체크
-        init();
+        document.addEventListener('DOMContentLoaded', function() {
+            checkScroll();
+            
+            // 모든 요소 강제 표시 (페이지 로드 시)
+            document.querySelectorAll('.fade-in').forEach(function(element) {
+                element.classList.add('visible');
+            });
+            
+            // 첫 번째 페이지 표시
+            const firstPage = document.getElementById('page1');
+            firstPage.classList.add('page-visible');
+            
+            // 현재 보이는 섹션에 따라 인디케이터 업데이트
+            updateScrollIndicator();
+        });
 
         // 스크롤 이벤트 리스너 추가
         window.addEventListener('scroll', checkScroll);
 
         // 리사이즈 이벤트 리스너 추가
-        window.addEventListener('resize', init);
+        window.addEventListener('resize', checkScroll);
+
+        // 스크롤 이벤트에 인디케이터 업데이트 추가
+        window.addEventListener('scroll', updateScrollIndicator);
+        
+        // 인디케이터 클릭 시 해당 섹션으로 스크롤
+        document.querySelectorAll('.indicator-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 인디케이터 클릭 시 해당 섹션으로 스크롤 및 애니메이션 적용
+        document.querySelectorAll('.indicator-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                const targetSection = document.getElementById(sectionId);
+                
+                // 모든 섹션 숨기기
+                document.querySelectorAll('.page-section').forEach(section => {
+                    if (section !== targetSection) {
+                        section.classList.remove('page-visible');
+                        section.classList.add(section.offsetTop < targetSection.offsetTop ? 'page-leaving' : 'page-entering');
+                    }
+                });
+                
+                // 대상 섹션 표시
+                targetSection.classList.remove('page-entering', 'page-leaving');
+                targetSection.classList.add('page-visible');
+                
+                // 섹션으로 스크롤
+                targetSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 스크롤 이벤트 관련 처리
+        window.addEventListener('scroll', function() {
+            checkScroll();
+            updateScrollIndicator();
+        });
+
+        // 현재 보이는 섹션에 따라 인디케이터 업데이트
+        function updateScrollIndicator() {
+            const sections = document.querySelectorAll('.page-section');
+            const dots = document.querySelectorAll('.indicator-dot');
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const viewportHeight = window.innerHeight;
+                const visibility = 1 - Math.abs(rect.top / viewportHeight);
+                
+                // 페이지가 화면에 보이는 비율에 따라 투명도 조절
+                if (rect.top < viewportHeight * 0.5 && rect.bottom > viewportHeight * 0.5) {
+                    // 현재 화면에 보이는 페이지
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    dots[index].classList.add('active');
+                    
+                    // 페이지 애니메이션 효과
+                    section.classList.remove('page-entering', 'page-leaving');
+                    section.classList.add('page-visible');
+                } else if (rect.top < 0) {
+                    // 이미 스크롤되어 위로 올라간 페이지
+                    section.classList.remove('page-visible', 'page-entering');
+                    section.classList.add('page-leaving');
+                } else {
+                    // 아직 아래에 있는 페이지
+                    section.classList.remove('page-visible', 'page-leaving');
+                    section.classList.add('page-entering');
+                }
+            });
+        }
     </script>
 </body>
 </html>
