@@ -391,29 +391,54 @@
             .page-section {
                 height: auto;
                 min-height: 100vh;
-                scroll-snap-align: none;
+                scroll-snap-align: start;
+                padding: 1.5rem 0;
+                overflow: visible;
             }
             
-            .header-section, .content-section, .footer-section {
+            .header-section {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .content-section, .footer-section {
                 flex-direction: column;
                 gap: 15px;
                 padding: 10px;
                 width: 100%;
             }
             
-            .photo-container, .intro-container, .content-item, .footer-item {
-                flex: none;
-                width: 100%;
+            .photo-container {
+                width: auto;
+                margin: 0;
+                justify-content: center;
             }
             
-            .photo-container {
-                margin-top: 15px;
+            .intro-container {
+                width: 100%;
+                height: auto;
+                min-height: 180px;
+                margin: 0;
+            }
+            
+            .content-item, .footer-item {
+                flex: none;
+                width: 100%;
+                box-sizing: border-box;
             }
         }
         
         @media screen and (max-width: 768px) {
+            body {
+                background: linear-gradient(135deg, #4facfe, #00f2fe);
+            }
+            
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             h2 {
@@ -421,26 +446,84 @@
             }
             
             .content-item, .footer-item, .intro-container {
-                padding: 20px;
+                padding: 15px;
+            }
+            
+            .header-section {
+                gap: 10px;
+            }
+            
+            .photo-container img {
+                width: 180px;
             }
         }
         
         @media screen and (max-width: 480px) {
+            body {
+                background: linear-gradient(135deg, #43cea2, #185a9d);
+            }
+            
             .main-container {
                 width: 100%;
                 padding: 10px;
+                box-sizing: border-box;
             }
             
             h1 {
                 font-size: 1.6rem;
+                padding-left: 10px;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .header-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .photo-container {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-bottom: 10px;
             }
             
             .photo-container img {
                 width: 160px;
             }
             
+            .intro-container {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+                box-sizing: border-box;
+            }
+            
             .intro-container p {
-                font-size: 1rem;
+                font-size: 0.95rem;
+            }
+            
+            .awards-container {
+                flex-direction: column;
+            }
+            
+            .awards-column {
+                min-width: 100%;
+            }
+            
+            .tech-stack img, .contact-links img {
+                height: 20px;
+            }
+            
+            .scroll-indicator {
+                right: 10px;
+            }
+            
+            .indicator-dot {
+                width: 8px;
+                height: 8px;
             }
         }
         
@@ -480,6 +563,27 @@
         .indicator-dot.active {
             background-color: white;
             transform: scale(1.2);
+        }
+        
+        /* 모바일 화면 향상을 위한 추가 스타일 */
+        @media (max-width: 768px) {
+            .section-bg {
+                background-color: rgba(255, 255, 255, 0.85);
+            }
+            
+            .page-section {
+                justify-content: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .tech-stack, .contact-links {
+                gap: 5px;
+            }
+            
+            .tech-stack img, .contact-links img {
+                max-width: calc(50% - 5px);
+                object-fit: contain;
+            }
         }
     </style>
 </head>
@@ -647,13 +751,19 @@
             
             // 현재 보이는 섹션에 따라 인디케이터 업데이트
             updateScrollIndicator();
+            
+            // 모바일 환경에서 배경 적용
+            applyMobileBackground();
         });
 
         // 스크롤 이벤트 리스너 추가
         window.addEventListener('scroll', checkScroll);
 
         // 리사이즈 이벤트 리스너 추가
-        window.addEventListener('resize', checkScroll);
+        window.addEventListener('resize', function() {
+            checkScroll();
+            applyMobileBackground();
+        });
 
         // 스크롤 이벤트에 인디케이터 업데이트 추가
         window.addEventListener('scroll', updateScrollIndicator);
@@ -728,6 +838,22 @@
                     section.classList.add('page-entering');
                 }
             });
+        }
+
+        // 모바일 환경에서 배경색 적용
+        function applyMobileBackground() {
+            const width = window.innerWidth;
+            const contentItems = document.querySelectorAll('.content-item, .footer-item, .intro-container');
+            
+            if (width <= 768) {
+                contentItems.forEach(item => {
+                    item.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
+                });
+            } else {
+                contentItems.forEach(item => {
+                    item.style.backgroundColor = 'rgba(255, 255, 255, 0.75)';
+                });
+            }
         }
     </script>
 </body>
